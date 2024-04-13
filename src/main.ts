@@ -8,9 +8,13 @@ async function bootstrap() {
     validationPipeService();
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
+
+    // global prefix
+    app.setGlobalPrefix('api/v1');
+
     await app.listen(3000);
     console.log(`Application is running on: ${await app.getUrl()}`);
-  } catch(err) {
+  } catch (err) {
 
   }
 }
