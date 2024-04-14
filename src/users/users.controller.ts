@@ -1,16 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Controller('auth')
+export class UserController {
+  constructor(private readonly authService: UsersService) { }
 
-  @Column()
-  username: string;
-
-  @Column()
-  password: string;
-
-  @Column()
-  role: string;
+  @Post('/register')
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.createUser(createUserDto);
+  }
 }
