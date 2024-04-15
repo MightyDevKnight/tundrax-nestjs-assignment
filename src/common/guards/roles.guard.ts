@@ -4,17 +4,18 @@ import { Roles } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) {}
+  constructor(private readonly reflector: Reflector) { }
 
   canActivate(context: ExecutionContext): boolean {
-    const roles = this.reflector.get(Roles, context.getHandler());
-    if (!roles) {
+    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    if (!roles || roles.length === 0) {
       return true;
     }
+
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
+    const user = request.body;
     const hasRole = () =>
-      user.roles.some(role => !!roles.find(item => item === role));
+      user.roles === roles[0];
 
     return user && user.roles && hasRole();
   }

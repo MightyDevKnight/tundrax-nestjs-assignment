@@ -1,7 +1,7 @@
 import { IsInt, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CreateCatDto {
+export class UpdateCatDto {
   @IsString()
   readonly name: string;
 
